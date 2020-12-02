@@ -1,3 +1,12 @@
+.verticalLine{
+  border-right: 1px solid #ccc;
+}
+
+.tableGroupHeaderRow{
+  background-color :#b6c9e2 !important;
+}
+
+/*USELESS BELOW*/
 .App {
   text-align: center;
 }
