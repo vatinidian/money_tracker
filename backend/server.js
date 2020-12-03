@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 
 require('dotenv').config();
 
@@ -20,6 +21,7 @@ connection.once('open', () => {
 });
 
 
+app.use(morgan('common'));
 const transactionList = require("./routes/transactionList");
 app.use("/transactionList", transactionList);
 
