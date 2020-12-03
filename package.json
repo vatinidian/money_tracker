@@ -23,9 +23,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "build": "npm run build",
+    "build": "react-scripts build",
     "install-client": "npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
     "start" : "react-scripts start",
     "backend":"cd backend && nodemon server.js",
     "dev": "concurrently -n 'server,client' \"npm run backend\" \"npm start\"",
