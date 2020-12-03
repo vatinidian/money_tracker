@@ -24,13 +24,13 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "install-client": "npm install",
     "start" : "react-scripts start",
     "backend":"cd backend && nodemon server.js",
     "dev": "concurrently -n 'server,client' \"npm run backend\" \"npm start\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+
   "eslintConfig": {
     "extends": [
       "react-app",
