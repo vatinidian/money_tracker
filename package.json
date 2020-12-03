@@ -23,7 +23,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start" : "concurrently -n 'server,client' \"npm run backend\" \"react-scripts start\"",
+    "start" : "react-scripts start",
     "heroku-postbuild": "npm install && npm run build",
     "backend":"cd backend && node server.js",
     "dev": "concurrently -n 'server,client' \"npm run backend\" \"npm start\"",
@@ -48,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://money-tracker-services.herokuapp.com"
 }

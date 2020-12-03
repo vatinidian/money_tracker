@@ -66,7 +66,7 @@ class AddTransactionModal extends React.Component {
     oPayload.amount = Math.abs(oPayload.amount);
 
     axios
-      .post("http://localhost:5000/transactionList/add", oPayload)
+      .post("/transactionList/add", oPayload)
       .then((req, res) => {
         if (!this.state.continueAfterSave) {
           this.props.onTransactionFinish();
