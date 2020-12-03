@@ -119,7 +119,7 @@ class Dashboard extends React.Component {
       ...oParam
     };
     axios
-      .get("http://localhost:5000/transactionList", {
+      .get("/transactionList", {
         params: oQueryParams
       })
       .then((response) => {
