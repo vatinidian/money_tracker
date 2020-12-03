@@ -23,9 +23,9 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start" : "react-scripts start",
+    "start" : "concurrently -n 'server,client' \"npm run backend\" \"react-scripts start\"",
     "heroku-postbuild": "npm install && npm run build",
-    "backend":"cd backend && nodemon server.js",
+    "backend":"cd backend && node server.js",
     "dev": "concurrently -n 'server,client' \"npm run backend\" \"npm start\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -49,4 +49,5 @@
       "last 1 safari version"
     ]
   }
+
 }
