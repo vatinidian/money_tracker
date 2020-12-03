@@ -55,7 +55,7 @@ class Dashboard extends React.Component {
       return;
     }
     axios
-      .delete("http://localhost:5000/transactionList/delete", {
+      .delete("/transactionList/delete", {
         data: {
           transactionID: oTransaction.transactionID,
           user: oTransaction.user,
@@ -74,7 +74,7 @@ class Dashboard extends React.Component {
 
   readUserAccountInfo(sUserID) {
     axios
-      .get("http://localhost:5000/userAccount/checkAccount/" + sUserID)
+      .get("/userAccount/checkAccount/" + sUserID)
       .then((response) => {
         this.setState({
           TransactionInfo: {
