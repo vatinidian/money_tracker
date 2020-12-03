@@ -24,10 +24,10 @@
   },
   "scripts": {
     "start" : "react-scripts start",
+    "heroku-postbuild": "npm install && npm run build",
     "backend":"cd backend && nodemon server.js",
     "dev": "concurrently -n 'server,client' \"npm run backend\" \"npm start\"",
     "test": "react-scripts test",
-    "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
 
@@ -48,6 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }
