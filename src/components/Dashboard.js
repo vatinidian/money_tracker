@@ -2,18 +2,21 @@ import React from "react";
 import axios from "axios";
 import $ from "jquery";
 import { MdDelete } from "react-icons/md";
+import Table from "react-bootstrap/Table";
+import Spinner from "react-bootstrap/Spinner";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.userId = "test";
     this.state = {
+      transactionListBusy: true,
       refresh: false,
       refreshCounter: 0,
       filter: {},
       TransactionList: [],
       TransactionInfo: {
-        Balance: 0,
+        Balance: "",
         Expense: 0,
         Credit: 0,
       },
@@ -27,7 +30,7 @@ class Dashboard extends React.Component {
       return {
         refresh: true,
         refreshCounter: nextProps.refreshInfo.refreshCounter,
-        filter : nextProps.refreshInfo.filter
+        filter: nextProps.refreshInfo.filter,
       }; // <- this is setState equivalent
     }
     return null;
@@ -43,6 +46,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
+    this.readUserAccountInfo(this.userId);
     this.getTransactionList(this.userId);
   }
 
@@ -89,8 +93,6 @@ class Dashboard extends React.Component {
   }
 
   calculateTransaction() {
-    this.readUserAccountInfo(this.userId);
-
     let Expense = 0;
     let Credit = 0;
 
@@ -113,17 +115,19 @@ class Dashboard extends React.Component {
   }
 
   getTransactionList(sUserId, oParam) {
+    this.setState({ transactionListBusy: true });
     let oQueryParams = {
       searchFilter: "",
       user: sUserId,
-      ...oParam
+      ...oParam,
     };
     axios
       .get("/transactionList", {
-        params: oQueryParams
+        params: oQueryParams,
       })
       .then((response) => {
         this.setState({ TransactionList: response.data });
+        this.setState({ transactionListBusy: false });
         this.calculateTransaction();
       })
       .catch((error) => {
@@ -134,14 +138,15 @@ class Dashboard extends React.Component {
   createTransactionSingleRow(Transaction) {
     return (
       <tr key={Transaction.transactionID}>
-        <td>{Transaction.transactionDate.substr(0, 10)}</td>
-        <td>{Transaction.group}</td>
-        <td>{Transaction.text}</td>
-        <td>{Transaction.transactionMethod}</td>
-        <td>{Transaction.category}</td>
-        <td>{Transaction.location}</td>
-        <td>{Transaction.amount}</td>
-        <td>
+        <td style={{ width: "15%" }}>
+          {Transaction.transactionDate.substr(0, 10)}
+        </td>
+        <td style={{ width: "15%" }}>{Transaction.group}</td>
+        <td style={{ width: "25%" }}>{Transaction.text}</td>
+        <td style={{ width: "10%" }}>{Transaction.transactionMethod}</td>
+        <td style={{ width: "15%" }}>{Transaction.category}</td>
+        <td style={{ width: "10%" }}>{Transaction.amount}</td>
+        <td style={{ width: "10%" }}>
           <button
             type="button"
             className="btn btn-default"
@@ -158,7 +163,6 @@ class Dashboard extends React.Component {
       <tr className="tableGroupHeaderRow" key={Transaction.group}>
         <td></td>
         <td>{Transaction.group.toUpperCase() || "MISC"}</td>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -200,7 +204,12 @@ class Dashboard extends React.Component {
               Hello {this.userId},
               <br />
               Available Balance: <small className="text-muted">Rs </small>
-              {this.state.TransactionInfo.Balance}{" "}
+              {!this.state.TransactionInfo.Balance &&
+              this.state.TransactionInfo.Balance !== 0 ? (
+                <Spinner animation="border" size="sm" variant="primary"></Spinner>
+              ) : (
+                this.state.TransactionInfo.Balance
+              )}
             </h6>
           </div>
 
@@ -235,23 +244,27 @@ class Dashboard extends React.Component {
         </div>
 
         <h5>Transaction List</h5>
-        <div className="table-responsive">
-          <table className="table table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Group</th>
-                <th>Text</th>
-                <th>Transaction Type</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Amount</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>{this.createTransactionRows()}</tbody>
-          </table>
-        </div>
+        <Table responsive>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Group</th>
+              <th>Text</th>
+              <th>Transaction</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{this.createTransactionRows()}</tbody>
+        </Table>
+        {this.state.transactionListBusy && (
+          <div class="text-center">
+            <Spinner animation="border" variant="primary">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </div>
+        )}
       </div>
     );
   }
