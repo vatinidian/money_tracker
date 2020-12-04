@@ -30,7 +30,7 @@ class Dashboard extends React.Component {
       return {
         refresh: true,
         refreshCounter: nextProps.refreshInfo.refreshCounter,
-        filter: nextProps.refreshInfo.filter,
+        filter: nextProps.refreshInfo.filter
       }; // <- this is setState equivalent
     }
     return null;
@@ -259,7 +259,7 @@ class Dashboard extends React.Component {
           <tbody>{this.createTransactionRows()}</tbody>
         </Table>
         {this.state.transactionListBusy && (
-          <div class="text-center">
+          <div className="text-center">
             <Spinner animation="border" variant="primary">
               <span className="sr-only">Loading...</span>
             </Spinner>
