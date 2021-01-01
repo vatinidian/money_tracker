@@ -5,7 +5,9 @@ import Header from "../components/Header";
 const mapStateToProps = state => {
   return {
     searchInput: state.userPreference.searchInput,
-    refreshInfo: state.userPreference.refreshInfo
+    refreshInfo: state.userPreference.refreshInfo,
+    loggedIn: state.userPreference.loggedIn,
+    userInfo: state.userPreference.userInfo
   };
 };
 

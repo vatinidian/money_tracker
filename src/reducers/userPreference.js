@@ -1,10 +1,12 @@
 const initialState = {
   searchInput: "",
+  loggedIn: false,
+  userInfo: {},
   refreshInfo: {
-    refreshCounter : 0,
+    refreshCounter: 0,
     refresh: false,
-    filter: {}
-  }
+    filter: {},
+  },
 };
 
 const userPreference = (state = initialState, action) => {
@@ -14,6 +16,9 @@ const userPreference = (state = initialState, action) => {
 
     case "setFireRefresh":
       return { ...state, refreshInfo: action.refreshInfo };
+
+    case "setUserLoginInfo":
+      return { ...state, loggedIn: true, userInfo: action.userInfo };
 
     default:
       return state;

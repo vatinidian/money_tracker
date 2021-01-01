@@ -9,7 +9,6 @@ import axios from "axios";
 class AddTransactionModal extends React.Component {
   constructor(props) {
     super(props);
-    this.userId = "test";
     this.state = {
       transaction: {
         group: "",
@@ -56,11 +55,11 @@ class AddTransactionModal extends React.Component {
 
     let oPayload = Object.assign({}, this.state.transaction);
 
-    if (!oPayload.amount) {
+    if (!oPayload.amount || !this.props.loggedIn || !this.props.userInfo || !this.props.userInfo.username) {
       return;
     }
 
-    oPayload.user = this.userId; // CHANGE 
+    oPayload.user = this.props.userInfo.username; // CHANGE 
     oPayload.category = "General";
     oPayload.transactionMethod = +oPayload.amount < 0 ? "DEBIT" : "CREDIT";
     oPayload.amount = Math.abs(oPayload.amount);

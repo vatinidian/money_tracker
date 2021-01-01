@@ -11,3 +11,10 @@ export const setFireRefresh = data => {
     refreshInfo: data
   };
 };
+
+export const setUserLoginInfo = data => {
+  return {
+    type: "setUserLoginInfo",
+    userInfo: data
+  };
+};

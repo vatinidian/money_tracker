@@ -8,7 +8,6 @@ import Spinner from "react-bootstrap/Spinner";
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.userId = "test";
     this.state = {
       transactionListBusy: true,
       refresh: false,
@@ -30,7 +29,7 @@ class Dashboard extends React.Component {
       return {
         refresh: true,
         refreshCounter: nextProps.refreshInfo.refreshCounter,
-        filter: nextProps.refreshInfo.filter
+        filter: nextProps.refreshInfo.filter,
       }; // <- this is setState equivalent
     }
     return null;
@@ -39,15 +38,25 @@ class Dashboard extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.refreshCounter !== this.state.refreshCounter &&
-      this.state.refresh
+      this.state.refresh &&
+      this.props.loggedIn &&
+      this.props.userInfo &&
+      this.props.userInfo.username
     ) {
-      this.getTransactionList(this.userId, this.state.filter);
+      this.readUserAccountInfo(this.props.userInfo.username);
+      this.getTransactionList(this.props.userInfo.username, this.state.filter);
     }
   }
 
   componentDidMount() {
-    this.readUserAccountInfo(this.userId);
-    this.getTransactionList(this.userId);
+    if (
+      this.props.loggedIn &&
+      this.props.userInfo &&
+      this.props.userInfo.username
+    ) {
+      this.readUserAccountInfo(this.props.userInfo.username);
+      this.getTransactionList(this.props.userInfo.username);
+    }
   }
 
   handleTransactionDelete(oTransaction) {
@@ -69,7 +78,7 @@ class Dashboard extends React.Component {
         },
       })
       .then((response) => {
-        this.getTransactionList(this.userId);
+        this.getTransactionList(this.props.userInfo.username);
       })
       .catch((error) => {
         console.log(error);
@@ -196,17 +205,24 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    if (!this.props.loggedIn || !this.props.userInfo || !this.props.userInfo.username) {
+      return null;
+    }
     return (
       <div className="container-fluid">
         <div className=" my-2 row">
           <div className="col verticalLine">
             <h6>
-              Hello {this.userId},
+              Hello {this.props.userInfo.username},
               <br />
               Available Balance: <small className="text-muted">Rs </small>
               {!this.state.TransactionInfo.Balance &&
               this.state.TransactionInfo.Balance !== 0 ? (
-                <Spinner animation="border" size="sm" variant="primary"></Spinner>
+                <Spinner
+                  animation="border"
+                  size="sm"
+                  variant="primary"
+                ></Spinner>
               ) : (
                 this.state.TransactionInfo.Balance
               )}
