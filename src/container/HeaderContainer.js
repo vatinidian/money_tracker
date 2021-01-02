@@ -1,4 +1,4 @@
-import { setSearchInput, setFireRefresh } from "../actions";
+import { setSearchInput, setFireRefresh,setUserLoginInfo } from "../actions";
 import { connect } from "react-redux";
 import Header from "../components/Header";
 
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setSearchInput: data => dispatch(setSearchInput(data)),
-    setFireRefresh: data => dispatch(setFireRefresh(data))
+    setFireRefresh: data => dispatch(setFireRefresh(data)),
+    setUserLoginInfo: (data) => dispatch(setUserLoginInfo(data))
   };
 };
 

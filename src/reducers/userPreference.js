@@ -18,7 +18,13 @@ const userPreference = (state = initialState, action) => {
       return { ...state, refreshInfo: action.refreshInfo };
 
     case "setUserLoginInfo":
-      return { ...state, loggedIn: true, userInfo: action.userInfo };
+      let oState;
+      if (!action.userInfo) {
+        oState = { ...state, loggedIn: false, userInfo: {} };
+      } else {
+        oState = { ...state, loggedIn: true, userInfo: action.userInfo };
+      }
+      return oState;
 
     default:
       return state;

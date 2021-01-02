@@ -144,6 +144,14 @@ class Dashboard extends React.Component {
       });
   }
 
+  createNoDataRow(){
+    return(<tr>
+      <td colSpan="7">
+          No transactions found. Add new transactions.
+      </td>
+  </tr>);
+  }
+
   createTransactionSingleRow(Transaction) {
     return (
       <tr key={Transaction.transactionID}>
@@ -184,7 +192,7 @@ class Dashboard extends React.Component {
     let aTransactions = this.state.TransactionList || [];
     let iLength = aTransactions.length;
     if (iLength <= 0) {
-      return null;
+      return this.createNoDataRow();
     }
     let aRows = [
       this.createTableGroupHeader(aTransactions[0]),
